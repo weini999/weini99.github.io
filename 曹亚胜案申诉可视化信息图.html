@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>曹亚胜案申诉可视化信息图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .section {
+            background: white;
+            margin: 30px 0;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .case-overview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .case-facts {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+        
+        .case-sentence {
+            background: linear-gradient(135deg, #4834d4, #686de0);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+        
+        .key-point {
+            background: #f8f9ff;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .evidence-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin: 20px 0;
+            align-items: center;
+        }
+        
+        .timeline-date {
+            background: #667eea;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            min-width: 120px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .timeline-content {
+            flex: 1;
+            background: #f8f9ff;
+            padding: 15px 20px;
+            margin-left: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .witness-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .witness-card {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #333;
+            transition: transform 0.3s ease;
+        }
+        
+        .witness-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .witness-card h3 {
+            color: #d63031;
+            margin-bottom: 10px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+        
+        .alert-box {
+            background: linear-gradient(135deg, #fd79a8, #fdcb6e);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(253, 121, 168, 0.3);
+        }
+        
+        .alert-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .legal-issues {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .conclusion {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .conclusion h2 {
+            color: white;
+            border-bottom: 3px solid rgba(255,255,255,0.3);
+            margin-bottom: 25px;
+        }
+        
+        @media (max-width: 768px) {
+            .case-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>曹亚胜冤案申诉</h1>
+            <div class="subtitle">一个被错误定罪17年半的真实案例</div>
+        </div>
+
+        <div class="section">
+            <h2>案件概览</h2>
+            <div class="case-overview">
+                <div class="case-facts">
+                    <h3>指控罪名</h3>
+                    <ul>
+                        <li>参加黑社会性质组织罪</li>
+                        <li>绑架罪</li>
+                        <li>敲诈勒索罪</li>
+                    </ul>
+                </div>
+                <div class="case-sentence">
+                    <h3>判决结果</h3>
+                    <p><strong>有期徒刑17年6个月</strong></p>
+                    <p>并处罚金11万元</p>
+                </div>
+            </div>
+            
+            <div class="alert-box">
+                <h3>🚨 核心问题</h3>
+                <p>包括黑老大林为杰在内的所有组织成员都不认识曹亚胜！<br>
+                这怎么可能是同一个犯罪组织的成员？</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>关键统计数据</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <span class="stat-number">9</span>
+                    <span class="stat-label">个证人证言全部被推翻</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">17</span>
+                    <span class="stat-label">名同案人中16人不认识曹亚胜</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">个客观证据证明曹亚胜在场</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">1</span>
+                    <span class="stat-label">个行为被重复定罪（违法）</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>证据造假时间线</h2>
+            <div class="evidence-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.2.2</div>
+                    <div class="timeline-content">
+                        <strong>第一步：杨亚秀辨认</strong><br>
+                        在没有任何线索的情况下，警方提前准备好曹亚胜照片供辨认。杨亚秀后证实：无法辨认，是警察指示的。
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.2.3</div>
+                    <div class="timeline-content">
+                        <strong>第二步：邓亚贵证言</strong><br>
+                        指名道姓指证"曹亚胜"。但邓亚贵不识字，且从未去过询问地点。关键问题：曹亚胜平时叫"曹胜"，只有警方才知道户籍姓名。
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.2.6</div>
+                    <div class="timeline-content">
+                        <strong>第三步：邓欢辨认</strong><br>
+                        直接受害人邓欢后承认：最初认不出谁给他灌水，是警察指着照片告诉他的。
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.2.22</div>
+                    <div class="timeline-content">
+                        <strong>第四步：陈烈敏供述</strong><br>
+                        同步录像显示：陈烈敏从未指证曹亚胜，但笔录中出现了"曹亚胜"的名字——警方伪造证据铁证如山！
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>证人证言对比</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>证人</th>
+                        <th>庭前证言</th>
+                        <th>申诉阶段新证据</th>
+                        <th>结论</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>杨亚秀</td>
+                        <td>辨认出曹亚胜</td>
+                        <td>无法辨认，警察指示</td>
+                        <td style="color: #d63031;">伪造</td>
+                    </tr>
+                    <tr>
+                        <td>邓亚贵</td>
+                        <td>指名道姓指证"曹亚胜"</td>
+                        <td>不认识曹亚胜，1000%肯定未指证</td>
+                        <td style="color: #d63031;">伪造</td>
+                    </tr>
+                    <tr>
+                        <td>邓欢</td>
+                        <td>辨认出曹亚胜</td>
+                        <td>最初认不出，警察提示才指认</td>
+                        <td style="color: #d63031;">伪造</td>
+                    </tr>
+                    <tr>
+                        <td>陈烈敏</td>
+                        <td>指证曹亚胜在场</td>
+                        <td>录像显示从未指证，不认识曹亚胜</td>
+                        <td style="color: #d63031;">伪造</td>
+                    </tr>
+                    <tr>
+                        <td>邓明</td>
+                        <td>辨认出曹亚胜</td>
+                        <td>无法辨认，警察写纸条让抄</td>
+                        <td style="color: #d63031;">伪造</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>同案人态度一览</h2>
+            <div class="witness-grid">
+                <div class="witness-card">
+                    <h3>林为杰（黑老大）</h3>
+                    <p>"不认识，不在场"</p>
+                    <p>第一次见曹亚胜是在庭前会议</p>
+                </div>
+                <div class="witness-card">
+                    <h3>钟丽丽</h3>
+                    <p>"没听过这个名字"</p>
+                    <p>连名字都没听说过</p>
+                </div>
+                <div class="witness-card">
+                    <h3>林宣善</h3>
+                    <p>"从来不知道曹亚胜这个人"</p>
+                    <p>当晚在场的每个人我都认识</p>
+                </div>
+                <div class="witness-card">
+                    <h3>其他14名同案人</h3>
+                    <p>均声称不认识曹亚胜</p>
+                    <p>曹亚胜不在作案现场</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>不在场证据</h2>
+            <div class="key-point">
+                <h3>🏠 装修证据</h3>
+                <p><strong>倪洁芳证言：</strong>2011年案发期间，曹亚胜在广西梧州为其装修房屋</p>
+                <p><strong>法院错误说理：</strong>不能证明24小时在装修，因此不能排除作案时间</p>
+                <p><strong>问题所在：</strong>举证责任倒置！应当由控方证明曹亚胜在场，而非由辩方证明其不在场</p>
+            </div>
+            
+            <div class="key-point">
+                <h3>📋 历史证据</h3>
+                <p><strong>关键发现：</strong>曹亚胜从1996年至2005年一直以"曹胜"名义生活</p>
+                <ul>
+                    <li>1996年卫生防疫站证书：颁发给"曹胜"</li>
+                    <li>1999-2005年装修合同：均以"曹胜"签订</li>
+                    <li>证明指名道姓指证"曹亚胜"的证言必然是伪造的</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section legal-issues">
+            <h2>法律适用错误</h2>
+            <h3>一个行为，三个罪名</h3>
+            <p>原判认定曹亚胜"给邓欢灌水"这一行为同时构成：</p>
+            <ul>
+                <li>参加黑社会性质组织罪</li>
+                <li>绑架罪</li>
+                <li>敲诈勒索罪</li>
+            </ul>
+            <p><strong>法律问题：</strong>一行为被重复评价，明显违反法律原则</p>
+        </div>
+
+        <div class="section">
+            <h2>职业见证人问题</h2>
+            <div class="key-point">
+                <h3>🔍 蔡南红的见证活动</h3>
+                <p>作为见证人，蔡南红出现在8个人的辨认笔录中，辨认地点遍及全省各地</p>
+                <p><strong>不合理之处：</strong>谁会自掏腰包跟着公安机关全省办案？</p>
+                <p><strong>证人证实：</strong>杨亚秀、邓明均表示辨认时无见证人在场</p>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>申诉请求</h2>
+            <p><strong>请求广东省人民检察院：</strong></p>
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li>依照审判监督程序向广东省高级人民法院提出抗诉</li>
+                <li>调查司法工作人员伪造证据、指供诱供的徇私枉法行为</li>
+                <li>为无辜的曹亚胜洗清冤屈，恢复其人身自由</li>
+            </ul>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid rgba(255,255,255,0.3);">
+                <h3>核心观点</h3>
+                <p>"包括黑老大在内的所有组织成员都不认识曹亚胜"<br>
+                仅凭这一点，就足以从常识判断这是一起冤案</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
