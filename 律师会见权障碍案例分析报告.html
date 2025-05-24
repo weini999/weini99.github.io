@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#1e40af">
+    <title>律师会见权障碍案例分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1e40af;
+            --secondary-blue: #3b82f6;
+            --accent-gold: #f59e0b;
+            --danger-red: #dc2626;
+            --success-green: #059669;
+            --neutral-gray: #6b7280;
+            --light-gray: #f9fafb;
+            --dark-gray: #111827;
+        }
+        
+        /* 手机端专用样式 */
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-size: 18px;
+            line-height: 1.8;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            margin: 0 auto;
+        }
+        
+        .mobile-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+        
+        .mobile-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px 12px 0 0;
+            margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+        }
+        
+        .mobile-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.3;
+        }
+        
+        .mobile-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin: 0.5rem 0 0 0;
+        }
+        
+        .big-number {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            line-height: 1;
+            text-align: center;
+        }
+        
+        .mobile-quote {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 6px solid var(--accent-gold);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        
+        .mobile-quote::before {
+            content: '"';
+            font-size: 3rem;
+            color: var(--accent-gold);
+            position: absolute;
+            top: -5px;
+            left: 12px;
+            opacity: 0.4;
+        }
+        
+        .mobile-quote p {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin: 0 0 1rem 0;
+            color: #1f2937;
+        }
+        
+        .mobile-quote .author {
+            font-size: 1rem;
+            text-align: right;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        .violation-box {
+            background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+            border-left: 6px solid var(--danger-red);
+            padding: 1.25rem;
+            border-radius: 0 12px 12px 0;
+            margin: 1rem 0;
+        }
+        
+        .legal-box {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-left: 6px solid var(--primary-blue);
+            padding: 1.25rem;
+            border-radius: 0 12px 12px 0;
+            margin: 1rem 0;
+        }
+        
+        .nav-mobile {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem;
+        }
+        
+        .nav-mobile h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0 0 0.75rem 0;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-links a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: #f1f5f9;
+            transition: all 0.3s ease;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links a:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #bfdbfe;
+        }
+        
+        .timeline-mobile {
+            padding-left: 0;
+        }
+        
+        .timeline-item-mobile {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 6px solid var(--accent-gold);
+        }
+        
+        .timeline-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-date {
+            font-size: 1rem;
+            color: var(--neutral-gray);
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-content {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #374151;
+        }
+        
+        .severity-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 0.75rem;
+        }
+        
+        .severity-high {
+            background: var(--danger-red);
+            color: white;
+        }
+        
+        .severity-medium {
+            background: var(--accent-gold);
+            color: white;
+        }
+        
+        .severity-low {
+            background: var(--success-green);
+            color: white;
+        }
+        
+        .content-section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        
+        .content-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #4b5563;
+            margin-bottom: 1rem;
+        }
+        
+        .highlight-text {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        
+        .legal-reference {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary-blue);
+            color: white;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            box-shadow: 0 8px 24px rgba(30, 64, 175, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-to-top:hover {
+            background: #1e3a8a;
+            transform: translateY(-2px);
+        }
+        
+        .list-mobile {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .list-mobile li {
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .emoji-icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+        
+        .comparison-mobile {
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comparison-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .comparison-title.positive {
+            color: var(--success-green);
+        }
+        
+        .comparison-title.negative {
+            color: var(--danger-red);
+        }
+        
+        .footer-mobile {
+            background: #1f2937;
+            color: #d1d5db;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .footer-mobile p {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 手机端导航 -->
+    <nav class="nav-mobile">
+        <h1>律师会见权障碍案例分析</h1>
+        <div class="nav-links">
+            <a href="#overview">📋 概述</a>
+            <a href="#timeline">⏰ 困境</a>
+            <a href="#conduct">⚖️ 操守</a>
+            <a href="#analysis">🔍 对比</a>
+        </div>
+    </nav>
+
+    <!-- 头部标题 -->
+    <header class="bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white py-8 px-4">
+        <div class="container text-center">
+            <h1 class="text-3xl font-bold mb-3 leading-tight">律师会见权障碍案例分析</h1>
+            <p class="text-lg mb-6 text-blue-200">暴继业案司法实践问题</p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">4次</div>
+                    <div class="stat-label">会见失败</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">48小时</div>
+                    <div class="stat-label">承诺未履行</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">多项</div>
+                    <div class="stat-label">程序违法</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container py-4">
+        <!-- 案件基本信息 -->
+        <section id="overview" class="mobile-card">
+            <div class="mobile-header">
+                <h2>案件基本信息档案</h2>
+                <p>Case File: Bao Jiye - Legal Consultation Access Denial</p>
+            </div>
+            
+            <div class="content-section">
+                <div class="stats-grid">
+                    <div class="mobile-card text-center">
+                        <div class="emoji-icon">👤</div>
+                        <h3 class="section-title">当事人</h3>
+                        <p class="text-xl font-medium">暴继业</p>
+                        <p class="content-text">犯罪嫌疑人</p>
+                    </div>
+                    <div class="mobile-card text-center">
+                        <div class="emoji-icon">⚖️</div>
+                        <h3 class="section-title">指控罪名</h3>
+                        <p class="text-xl font-medium">寻衅滋事</p>
+                        <p class="content-text">初始定性</p>
+                    </div>
+                    <div class="mobile-card text-center">
+                        <div class="emoji-icon">🏢</div>
+                        <h3 class="section-title">羁押场所</h3>
+                        <p class="text-xl font-medium">无极县看守所</p>
+                        <p class="content-text">临时羁押</p>
+                    </div>
+                    <div class="mobile-card text-center">
+                        <div class="emoji-icon">👨‍💼</div>
+                        <h3 class="section-title">辩护律师</h3>
+                        <p class="text-xl font-medium">金伟律师</p>
+                        <p class="content-text">北京和颐律师事务所</p>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">案件关键法律问题识别</h3>
+                    <div class="legal-box">
+                        <div class="flex items-center mb-2">
+                            <span class="emoji-icon">🚨</span>
+                            <strong class="text-lg">会见权障碍</strong>
+                        </div>
+                        <p class="content-text">律师会见权受到非法限制，违反刑事诉讼法相关规定</p>
+                    </div>
+                    <div class="legal-box">
+                        <div class="flex items-center mb-2">
+                            <span class="emoji-icon">⚠️</span>
+                            <strong class="text-lg">程序正义缺失</strong>
+                        </div>
+                        <p class="content-text">未经法定程序预先定性"黑社会"，影响正当法律程序</p>
+                    </div>
+                    <div class="legal-box">
+                        <div class="flex items-center mb-2">
+                            <span class="emoji-icon">👨‍⚖️</span>
+                            <strong class="text-lg">司法人员职业操守</strong>
+                        </div>
+                        <p class="content-text">检察官言行失当，缺乏职业素养</p>
+                    </div>
+                    <div class="legal-box">
+                        <div class="flex items-center mb-2">
+                            <span class="emoji-icon">🔒</span>
+                            <strong class="text-lg">权力滥用风险</strong>
+                        </div>
+                        <p class="content-text">上级机关干预下级办案，影响司法独立</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 律师会见困境 -->
+        <section id="timeline" class="mobile-card">
+            <div class="mobile-header">
+                <h2>律师会见困境</h2>
+                <p>Legal Consultation Access Obstruction</p>
+            </div>
+
+            <div class="content-section">
+                <div class="text-center mb-6">
+                    <div class="big-number">4 次</div>
+                    <h3 class="section-title">律师尝试会见均失败</h3>
+                    <p class="content-text">
+                        金律师反映，其四次前往无极县看守所要求会见当事人暴继业，虽看守所张立峰所长口头同意，但均未能成功。
+                    </p>
+                </div>
+                
+                <div class="mobile-quote">
+                    <p>"我来了4回，每次张立峰所长都跟我说让我见，但是我来了4回，4回都没见上。"</p>
+                    <p class="author">- 金律师</p>
+                </div>
+
+                <h3 class="section-title">会见受阻时间线与理由</h3>
+                
+                <div class="timeline-mobile">
+                    <div class="timeline-item-mobile">
+                        <h4 class="timeline-title">周四、周五</h4>
+                        <p class="timeline-content">看守所答复：暴继业<span class="highlight-text">"在提审"</span>。</p>
+                    </div>
+
+                    <div class="timeline-item-mobile">
+                        <h4 class="timeline-title">周六上午</h4>
+                        <p class="timeline-content">张立峰所长仍在，让律师去见。</p>
+                    </div>
+
+                    <div class="timeline-item-mobile">
+                        <h4 class="timeline-title">周六下午</h4>
+                        <p class="timeline-content">看守所称人不在，理由：<span class="highlight-text">"人出去了，说是人生病了。"</span></p>
+                    </div>
+                </div>
+
+                <div class="violation-box">
+                    <p class="content-text">
+                        <strong>⚠️ 重要提醒：</strong>张所长曾保证律师48小时内一定能见到当事人，但四天过去，会见仍未实现。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 检察官不当言行分析 -->
+        <section id="conduct" class="mobile-card">
+            <div class="mobile-header">
+                <h2>检察官不当言行分析</h2>
+                <p>Prosecutor's Inappropriate Conduct Analysis</p>
+            </div>
+
+            <div class="content-section">
+                <div class="text-center mb-6">
+                    <div class="emoji-icon" style="font-size: 4rem;">⚠️</div>
+                    <h3 class="section-title">职业操守严重失当</h3>
+                    <p class="content-text">
+                        检察官何耀坤在通话中暴露多项职业伦理问题，违反司法人员基本操守。
+                    </p>
+                </div>
+
+                <div class="legal-box">
+                    <h4 class="section-title">适用法条</h4>
+                    <div class="legal-reference">
+                        <p><strong>《检察官职业道德基本准则》第八条：</strong>检察官应当保持清廉，不得有损害检察官形象的行为。</p>
+                        <p><strong>《刑事诉讼法》第三十八条：</strong>看守所应当及时安排律师会见。</p>
+                    </div>
+                </div>
+
+                <h3 class="section-title">主要违规言行</h3>
+                
+                <div class="violation-box">
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="timeline-title">🍷 公务期间饮酒</h4>
+                        <span class="severity-tag severity-high">严重</span>
+                    </div>
+                    <p class="mobile-quote" style="margin: 1rem 0; font-size: 1rem;">"我今天喝点酒了，我不想跟你说我请假了啊。"</p>
+                    <p class="content-text">违反职业操守，损害司法形象</p>
+                </div>
+
+                <div class="violation-box">
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="timeline-title">⚖️ 未审先判</h4>
+                        <span class="severity-tag severity-high">程序违法</span>
+                    </div>
+                    <p class="mobile-quote" style="margin: 1rem 0; font-size: 1rem;">"你们是黑社会...百分之百的是黑社会啊。"</p>
+                    <p class="content-text">违反无罪推定原则</p>
+                </div>
+
+                <div class="violation-box">
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="timeline-title">🚫 否定律师权利</h4>
+                        <span class="severity-tag severity-high">权利侵犯</span>
+                    </div>
+                    <p class="mobile-quote" style="margin: 1rem 0; font-size: 1rem;">"你见什么见，不叫你见就不叫你见了。"</p>
+                    <p class="content-text">直接否定法定会见权</p>
+                </div>
+
+                <div class="violation-box">
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="timeline-title">🗺️ 地域歧视</h4>
+                        <span class="severity-tag severity-medium">失当</span>
+                    </div>
+                    <p class="mobile-quote" style="margin: 1rem 0; font-size: 1rem;">"我就怕，我就怕北京人民。"</p>
+                    <p class="content-text">体现地域偏见，有失公正</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 法理原则与实践操作对比分析 -->
+        <section id="analysis" class="mobile-card">
+            <div class="mobile-header">
+                <h2>法理原则与实践对比</h2>
+                <p>Legal Principles vs. Practical Implementation</p>
+            </div>
+
+            <div class="comparison-mobile">
+                <div class="comparison-item">
+                    <h3 class="comparison-title positive">
+                        <span class="emoji-icon">⚖️</span>
+                        法律条文与原则
+                    </h3>
+                    
+                    <div class="legal-box">
+                        <h4 class="timeline-title">1. 律师会见权保障</h4>
+                        <div class="legal-reference">
+                            <strong>《律师法》第三十三条：</strong>犯罪嫌疑人被侦查机关第一次讯问或者采取强制措施之日起，受委托的律师凭律师执业证书、律师事务所证明和委托书或者法律援助公函要求会见犯罪嫌疑人的，侦查机关应当及时安排会见。
+                        </div>
+                    </div>
+
+                    <div class="legal-box">
+                        <h4 class="timeline-title">2. 无罪推定原则</h4>
+                        <div class="legal-reference">
+                            <strong>《刑事诉讼法》第十二条：</strong>未经人民法院依法判决，对任何人都不得确定有罪。
+                        </div>
+                    </div>
+
+                    <div class="legal-box">
+                        <h4 class="timeline-title">3. 正当程序原则</h4>
+                        <p class="content-text">任何刑事定性必须经过法定程序，不得随意预先判定。</p>
+                    </div>
+
+                    <div class="legal-box">
+                        <h4 class="timeline-title">4. 司法独立原则</h4>
+                        <div class="legal-reference">
+                            <strong>《宪法》第一百三十一条：</strong>人民检察院依照法律规定独立行使检察权，不受行政机关、社会团体和个人的干涉。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-item">
+                    <h3 class="comparison-title negative">
+                        <span class="emoji-icon">🚨</span>
+                        实际操作问题
+                    </h3>
+                    
+                    <div class="violation-box">
+                        <h4 class="timeline-title">1. 会见权被随意剥夺</h4>
+                        <p class="content-text">看守所以各种理由（提审、生病等）拒绝律师会见，无正当法律依据。</p>
+                        <div class="mobile-quote">
+                            <p>"不叫你见就不叫你见了"</p>
+                        </div>
+                    </div>
+
+                    <div class="violation-box">
+                        <h4 class="timeline-title">2. 预先定性违法</h4>
+                        <p class="content-text">未经法院审判即认定为"黑社会"，严重违反无罪推定。</p>
+                        <div class="mobile-quote">
+                            <p>"百分之百的是黑社会啊...人家定性是定黑社会"</p>
+                        </div>
+                    </div>
+
+                    <div class="violation-box">
+                        <h4 class="timeline-title">3. 程序架空</h4>
+                        <p class="content-text">以上级定性为由直接跳过法定程序，架空正当程序保障。</p>
+                    </div>
+
+                    <div class="violation-box">
+                        <h4 class="timeline-title">4. 上级干预</h4>
+                        <p class="content-text">石家庄市局直接干预下级办案，影响司法独立。</p>
+                        <div class="mobile-quote">
+                            <p>"这是市局的，石家庄市局的说这事呢"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mobile-card">
+                <h3 class="section-title">法律适用冲突分析</h3>
+                <div class="comparison-mobile">
+                    <div class="legal-box">
+                        <h4 class="comparison-title positive">✅ 律师的合理主张</h4>
+                        <ul class="list-mobile">
+                            <li>当前罪名仅为"寻衅滋事"，律师有权会见</li>
+                            <li>"黑社会"认定需法院判决，目前不成立</li>
+                            <li>法律是全国统一的，不存在地方差异</li>
+                            <li>即使涉嫌组织犯罪，也不能剥夺基本诉讼权利</li>
+                        </ul>
+                    </div>
+                    <div class="violation-box">
+                        <h4 class="comparison-title negative">❌ 检方的错误逻辑</h4>
+                        <ul class="list-mobile">
+                            <li>以上级"定性"为由拒绝会见，无法律依据</li>
+                            <li>混淆侦查阶段认定与法院判决的区别</li>
+                            <li>将律师执业行为等同于"代理犯罪"</li>
+                            <li>以个人好恶影响司法程序</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="back-to-top" style="opacity: 0; visibility: hidden;">
+        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <footer class="footer-mobile">
+        <p>&copy; 2024 律师会见权障碍案例分析</p>
+        <p>仅供学术研究参考</p>
+    </footer>
+
+    <script>
+        // 平滑滚动导航
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 返回顶部按钮功能
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.style.opacity = '1';
+                backToTopButton.style.visibility = 'visible';
+            } else {
+                backToTopButton.style.opacity = '0';
+                backToTopButton.style.visibility = 'hidden';
+            }
+        });
+
+        // 返回顶部点击事件
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 移动端触摸优化
+        let touchStartY = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            const touchY = e.touches[0].clientY;
+            const touchDiff = touchStartY - touchY;
+            
+            // 防止过度滚动
+            if (touchDiff > 0 && window.scrollY === 0) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // 打印优化
+        window.addEventListener('beforeprint', () => {
+            backToTopButton.style.display = 'none';
+        });
+
+        window.addEventListener('afterprint', () => {
+            backToTopButton.style.display = 'flex';
+        });
+    </script>
+</body>
+</html> 
