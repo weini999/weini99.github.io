@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>曹亚胜案申诉 | 震撼冤案可视化信息图</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 10px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-menu a:hover {
+            color: #667eea;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            padding: 60px 0;
+        }
+        
+        .header h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease;
+        }
+        
+        .header .subtitle {
+            font-size: 1.8rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+        
+        .header .description {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            opacity: 0.8;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section {
+            background: white;
+            margin: 40px 0;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 15px;
+            position: relative;
+        }
+        
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+        
+        /* 案件基本信息 - 四个卡片完美对齐 */
+        .case-info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .info-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .info-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+        
+        .info-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+        
+        .info-card p {
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        /* 震撼核心问题 - 增强冲击性 */
+        .core-issue {
+            background: linear-gradient(135deg, #ff3838, #ff1744);
+            color: white;
+            padding: 50px;
+            border-radius: 25px;
+            text-align: center;
+            margin: 50px 0;
+            box-shadow: 0 20px 60px rgba(255, 23, 68, 0.4);
+            animation: shockPulse 3s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .core-issue::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 8s linear infinite;
+        }
+        
+        @keyframes shockPulse {
+            0%, 100% { 
+                box-shadow: 0 20px 60px rgba(255, 23, 68, 0.4);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 25px 80px rgba(255, 23, 68, 0.7);
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .core-issue h3 {
+            font-size: 3rem;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .core-issue p {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .shock-text {
+            font-size: 1.6rem !important;
+            font-weight: bold;
+            color: #ffff00;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: textShock 2s infinite;
+        }
+        
+        @keyframes textShock {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* 统计数据 - 六个卡片完美对齐 */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            padding: 35px 25px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+        
+        .stat-card:hover::before {
+            opacity: 1;
+            top: -100%;
+            left: -100%;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+        
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            display: block;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            line-height: 1.3;
+            font-weight: 500;
+        }
+        
+        /* 震撼数据突出显示 */
+        .shock-stat {
+            background: linear-gradient(135deg, #ff6b6b, #ff3838) !important;
+            animation: statShock 2s infinite;
+        }
+        
+        @keyframes statShock {
+            0%, 100% { box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3); }
+            50% { box-shadow: 0 15px 50px rgba(255, 107, 107, 0.6); }
+        }
+        
+        /* 完整时间线 */
+        .timeline-container {
+            position: relative;
+            padding: 40px 0;
+        }
+        
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin: 40px 0;
+            align-items: center;
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 0;
+            margin-right: 20px;
+        }
+        
+        .timeline-date {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            min-width: 140px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .timeline-content {
+            flex: 1;
+            background: linear-gradient(135deg, #f8f9ff, #e8eaff);
+            padding: 25px 30px;
+            margin-left: 20px;
+            border-radius: 15px;
+            border-left: 6px solid #ff6b6b;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .timeline-content:hover {
+            transform: translateX(10px);
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content:hover {
+            transform: translateX(-10px);
+        }
+        
+        .timeline-content h4 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-content .evidence-type {
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .shock-evidence {
+            background: #ff1744 !important;
+            font-weight: bold;
+            animation: evidenceShock 1.5s infinite;
+        }
+        
+        @keyframes evidenceShock {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* 证人对比表格增强 */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .comparison-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            vertical-align: middle;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9ff;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+        
+        .fake-evidence {
+            color: #ff1744;
+            font-weight: 900;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .fake-evidence::before {
+            content: "🚨 ";
+            animation: alertBlink 1s infinite;
+        }
+        
+        @keyframes alertBlink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        
+        /* 同案人卡片网格 - 完美对齐 */
+        .defendants-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .defendant-card {
+            background: linear-gradient(135deg, #fd79a8, #fdcb6e);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .defendant-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .defendant-card:hover::before {
+            left: 100%;
+        }
+        
+        .defendant-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+        }
+        
+        .defendant-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        
+        .defendant-card .quote {
+            font-style: italic;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        
+        .defendant-card .quote::before,
+        .defendant-card .quote::after {
+            content: '"';
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .defendant-card p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        /* 不在场证据 - 两个卡片对齐 */
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .evidence-card {
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .evidence-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .evidence-card p, .evidence-card ul {
+            line-height: 1.6;
+        }
+        
+        .evidence-card ul li {
+            margin: 8px 0;
+        }
+        
+        /* 法律问题部分 */
+        .legal-issues {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+        
+        .legal-issues h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .legal-issues .violation-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .legal-issues .violation-list li {
+            background: rgba(255,255,255,0.2);
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #fff;
+        }
+        
+        .legal-issues .violation-list li::before {
+            content: "⚖️ ";
+            margin-right: 10px;
+        }
+        
+        /* 结论部分 */
+        .conclusion {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            padding: 50px;
+            border-radius: 25px;
+            text-align: center;
+            margin: 50px 0;
+            position: relative;
+        }
+        
+        .conclusion::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #00b894, #00cec9, #74b9ff, #667eea);
+            border-radius: 25px;
+            z-index: -1;
+            animation: rotate 4s linear infinite;
+        }
+        
+        .conclusion h2 {
+            color: white;
+            border-bottom: 3px solid rgba(255,255,255,0.3);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .conclusion .demands {
+            text-align: left;
+            max-width: 700px;
+            margin: 30px auto;
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+        }
+        
+        .conclusion .demands li {
+            margin: 15px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .conclusion .demands li::before {
+            content: "🎯";
+            position: absolute;
+            left: 0;
+        }
+        
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(100px);
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .case-info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .defendants-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .evidence-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 80px 10px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header .subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .section {
+                padding: 25px;
+                margin: 20px 0;
+            }
+            
+            .section h2 {
+                font-size: 2rem;
+            }
+            
+            .case-info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .defendants-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-container::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                flex-direction: column !important;
+                align-items: flex-start;
+                padding-left: 60px;
+            }
+            
+            .timeline-item .timeline-content {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                margin-top: 20px;
+                width: 100%;
+            }
+            
+            .timeline-date {
+                position: absolute;
+                left: -70px;
+                min-width: 120px;
+            }
+        }
+        
+        /* 进度指示器 */
+        .progress-indicator {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            z-index: 999;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- 进度指示器 -->
+    <div class="progress-indicator">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">曹亚胜冤案申诉</div>
+            <ul class="nav-menu">
+                <li><a href="#overview">案件概览</a></li>
+                <li><a href="#statistics">震撼数据</a></li>
+                <li><a href="#timeline">造假时间线</a></li>
+                <li><a href="#comparison">证据对比</a></li>
+                <li><a href="#defendants">同案人态度</a></li>
+                <li><a href="#conclusion">申诉请求</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- 头部 -->
+        <div class="header">
+            <h1><i class="fas fa-balance-scale"></i> 曹亚胜冤案申诉</h1>
+            <div class="subtitle">一个被错误定罪17年6个月的惊天冤案</div>
+            <div class="description">零客观证据 · 全部伪造证言 · 震撼司法界的错案典型</div>
+        </div>
+
+        <!-- 案件概览 -->
+        <div class="section" id="overview">
+            <h2><i class="fas fa-gavel"></i> 案件概览</h2>
+            <div class="case-info-grid">
+                <div class="info-card">
+                    <i class="fas fa-user-tie"></i>
+                    <h3>申诉人</h3>
+                    <p>曹亚胜（男）<br>身份证：44082219680616417X<br>现关押：广东省从化监狱</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>指控罪名</h3>
+                    <p>参加黑社会性质组织罪<br>绑架罪<br>敲诈勒索罪</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-hammer"></i>
+                    <h3>严重刑罚</h3>
+                    <p><strong>有期徒刑17年6个月</strong><br>并处罚金人民币11万元</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>关键时间</h3>
+                    <p>案发时间：2011年<br>一审判决：2022年9月7日<br>二审裁定：2022年11月14日</p>
+                </div>
+            </div>
+            
+            <div class="core-issue">
+                <h3><i class="fas fa-bomb"></i> 匪夷所思的核心问题</h3>
+                <p>包括黑老大林为杰在内的<span class="shock-text">全部17名组织成员中有16人都不认识曹亚胜</span>！<br>
+                黑老大当庭惊呼：<span class="shock-text">"很可笑，从哪里找来一个陌生人说是我马仔"</span><br>
+                <strong>仅凭这一点，任何有常识的人都能判断这是惊天冤案！</strong></p>
+            </div>
+        </div>
+
+        <!-- 震撼统计数据 -->
+        <div class="section" id="statistics">
+            <h2><i class="fas fa-chart-bar"></i> 震撼统计数据</h2>
+            <div class="stats-container">
+                <div class="stat-card shock-stat">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">证人证言<br>被全部推翻</span>
+                </div>
+                <div class="stat-card shock-stat">
+                    <span class="stat-number">94.1%</span>
+                    <span class="stat-label">同案人（16/17）<br>不认识曹亚胜</span>
+                </div>
+                <div class="stat-card shock-stat">
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">个客观证据<br>证明曹亚胜在场</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">1</span>
+                    <span class="stat-label">个行为被违法<br>重复定三罪</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">10</span>
+                    <span class="stat-label">个步骤精心<br>编织伪证链</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">25+</span>
+                    <span class="stat-label">年来曹亚胜以<br>"曹胜"名义生活</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 完整证据造假时间线 -->
+        <div class="section" id="timeline">
+            <h2><i class="fas fa-clock"></i> 证据造假完整时间线</h2>
+            <div class="timeline-container">
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.2.2</div>
+                    <div class="timeline-content">
+                        <div class="evidence-type shock-evidence">被害人辨认造假</div>
+                        <h4>第一步：杨亚秀辨认造假</h4>
+                        <p><strong>匪夷所思之处：</strong>在没有任何犯罪嫌疑人线索的情况下，警方神奇地提前准备好带有曹亚胜头像的辨认材料！<br>
+                        <strong>申诉新证据：</strong>杨亚秀亲口承认无法辨认出曹亚胜，完全是在警察直接指示下"被辨认"。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.2.3</div>
+                    <div class="timeline-content">
+                        <div class="evidence-type shock-evidence">证人证言造假</div>
+                        <h4>第二步：邓亚贵证言造假</h4>
+                        <p><strong>致命破绽：</strong>指名道姓指证"曹亚胜"，但曹亚胜生活中从未用过这个名字，一直叫"曹胜"！只有警方户籍系统才有"曹亚胜"这个名字。<br>
+                        <strong>申诉新证据：</strong>邓亚贵1000%肯定从未指证过曹亚胜，不识字，从未去过世明大酒店。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.2.6</div>
+                    <div class="timeline-content">
+                        <div class="evidence-type shock-evidence">被害人辨认造假</div>
+                        <h4>第三步：邓欢辨认造假</h4>
+                        <p><strong>关键受害人亲口推翻：</strong>直接受害人邓欢后来承认最初根本认不出谁给他灌水。<br>
+                        <strong>录音铁证：</strong>邓欢在通话录音中明确表示"警察指给我看，说这个是谁谁谁，又喊我签字"。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.2.22</div>
+                    <div class="timeline-content">
+                        <div class="evidence-type shock-evidence">铁证如山的伪造</div>
+                        <h4>第四步：陈烈敏供述造假（铁证如山）</h4>
+                        <p><strong>视频铁证：</strong>同步录像显示陈烈敏从始至终均未指证过曹亚胜，但笔录中却神奇地出现了"曹亚胜"的名字！<br>
+                        <strong>无可辩驳：</strong>这是警方伪造证据的铁证如山，任何人看了录像都无法否认！</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.2.27</div>
+                    <div class="timeline-content">
+                        <div class="evidence-type">同案人辨认疑点</div>
+                        <h4>第五步：钟亚文辨认（疑点重重）</h4>
+                        <p><strong>时间巧合：</strong>前期多份笔录未指控曹亚胜，恰好在曹厚杰出具不在场证明后才指控。<br>
+                        <strong>职业见证人：</strong>见证人蔡南红跟着公安全省办案，明显不合常理。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.3.5-6</div>
+                    <div class="timeline-content">
+                        <div class="evidence-type shock-evidence">被害人辨认造假</div>
+                        <h4>第六步：邓明辨认造假</h4>
+                        <p><strong>申诉新证据：</strong>邓明无法辨认出曹亚胜，辨认笔录内容是警察写在纸条上让他抄写的。<br>
+                        <strong>虚假见证：</strong>辨认时根本无见证人在场，见证人签名纯属伪造。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.3.11</div>
+                    <div class="timeline-content">
+                        <div class="evidence-type">嫌疑人抓捕</div>
+                        <h4>第七步：抓捕曹亚胜</h4>
+                        <p>在编织了六个人的伪证后，侦查人员远赴广西梧州抓捕曹亚胜。<br>
+                        <strong>曹亚胜态度：</strong>自始至终从未认罪，坚称公安抓错了人，根本不认识林为杰等任何人。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.6.17</div>
+                    <div class="timeline-content">
+                        <div class="evidence-type shock-evidence">证人证言造假</div>
+                        <h4>第八步：廖业强证言造假</h4>
+                        <p><strong>前后矛盾：</strong>庭前称认识给邓欢灌水的人，申诉阶段改口说不认识，那是第一次见到。<br>
+                        <strong>又一伪证：</strong>与其他证人一样，证言前后完全矛盾。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.7.7</div>
+                    <div class="timeline-content">
+                        <div class="evidence-type shock-evidence">被害人辨认造假</div>
+                        <h4>第九步：林尚毅辨认造假</h4>
+                        <p><strong>申诉新证据：</strong>林尚毅无法辨认出曹亚胜，当年根本没看到给邓欢灌水的人。<br>
+                        <strong>标准操作：</strong>辨认笔录又是警察写在纸上让他抄写的标准伪造流程。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.9.17</div>
+                    <div class="timeline-content">
+                        <div class="evidence-type shock-evidence">威胁翻供</div>
+                        <h4>第十步：威胁曹厚杰翻供</h4>
+                        <p><strong>恶劣行径：</strong>曹厚杰（曹亚胜堂侄）此前出具不在场证明，被警方威胁恐吓后被迫翻供。<br>
+                        <strong>良心发现：</strong>曹厚杰后来出具《翻供声明》，揭露指证曹亚胜是迫于警察恐吓威胁。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 证人证言对比 -->
+        <div class="section" id="comparison">
+            <h2><i class="fas fa-balance-scale-right"></i> 证人证言惊人反转对比</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">证人身份</th>
+                        <th style="width: 30%;">庭前伪造证言</th>
+                        <th style="width: 35%;">申诉阶段真相</th>
+                        <th style="width: 15%;">性质认定</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>杨亚秀</strong><br><small>被害人邓石董母亲</small></td>
+                        <td>辨认出曹亚胜给邓欢灌水</td>
+                        <td>根本无法辨认出曹亚胜，完全是在警察直接指示下"被辨认"</td>
+                        <td class="fake-evidence">伪造</td>
+                    </tr>
+                    <tr>
+                        <td><strong>邓亚贵</strong><br><small>案件证人</small></td>
+                        <td>指名道姓指证"曹亚胜"给邓欢灌水</td>
+                        <td>不认识曹亚胜，1000%肯定未指证过，不识字，从未去过询问地点世明大酒店</td>
+                        <td class="fake-evidence">伪造</td>
+                    </tr>
+                    <tr>
+                        <td><strong>邓欢</strong><br><small>直接受害人</small></td>
+                        <td>辨认出曹亚胜给他灌水</td>
+                        <td>录音证据：最初认不出谁给他灌水，"警察指给我看，说这个是谁谁谁，又喊我签字"</td>
+                        <td class="fake-evidence">伪造</td>
+                    </tr>
+                    <tr>
+                        <td><strong>陈烈敏</strong><br><small>同案犯</small></td>
+                        <td>指证曹亚胜在场参与作案</td>
+                        <td>视频铁证：同步录像显示从未指证曹亚胜，不认识曹亚胜，连竹山仔村都不知道</td>
+                        <td class="fake-evidence">伪造</td>
+                    </tr>
+                    <tr>
+                        <td><strong>邓明</strong><br><small>被害学生</small></td>
+                        <td>辨认出曹亚胜给邓欢灌水</td>
+                        <td>无法辨认出曹亚胜，辨认笔录内容是警察写在纸条上让他抄写的</td>
+                        <td class="fake-evidence">伪造</td>
+                    </tr>
+                    <tr>
+                        <td><strong>廖业强</strong><br><small>证人（邓欢舅舅）</small></td>
+                        <td>认识给邓欢灌水的人，是竹山仔村人</td>
+                        <td>不认识给邓欢灌水的人，那是他第一次见到该人，与庭前证言完全矛盾</td>
+                        <td class="fake-evidence">伪造</td>
+                    </tr>
+                    <tr>
+                        <td><strong>林尚毅</strong><br><small>被害学生</small></td>
+                        <td>辨认出曹亚胜给邓欢灌水</td>
+                        <td>无法辨认出曹亚胜，当年根本没看到给邓欢灌水的人，又是纸条抄写</td>
+                        <td class="fake-evidence">伪造</td>
+                    </tr>
+                    <tr>
+                        <td><strong>曹厚杰</strong><br><small>被害人（曹亚胜堂侄）</small></td>
+                        <td>翻供指证曹亚胜在场</td>
+                        <td>出具《翻供声明》，揭露指证曹亚胜是迫于警察恐吓威胁</td>
+                        <td class="fake-evidence">威胁</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 同案人态度 -->
+        <div class="section" id="defendants">
+            <h2><i class="fas fa-users"></i> 全体同案人态度（17人中16人不认识）</h2>
+            <div class="defendants-grid">
+                <div class="defendant-card">
+                    <h4>林为杰（黑老大）</h4>
+                    <p class="quote">不认识，不在场</p>
+                    <p>第一次见曹亚胜是在庭前会议，当场惊呼"很可笑，从哪里找来一个陌生人说是我马仔"</p>
+                </div>
+                <div class="defendant-card">
+                    <h4>钟丽丽</h4>
+                    <p class="quote">没听过这个名字</p>
+                    <p>连曹亚胜这个名字都没听说过，完全陌生</p>
+                </div>
+                <div class="defendant-card">
+                    <h4>林宣善（林为杰儿子）</h4>
+                    <p class="quote">从来不知道曹亚胜这个人</p>
+                    <p>当晚在场的每个人我都认识，绝不可能有陌生人</p>
+                </div>
+                <div class="defendant-card">
+                    <h4>林天善（林为杰儿子）</h4>
+                    <p class="quote">不认识曹亚胜</p>
+                    <p>多次强调曹亚胜是被错抓的无辜人</p>
+                </div>
+                <div class="defendant-card">
+                    <h4>其他12名同案人</h4>
+                    <p class="quote">异口同声：不认识曹亚胜</p>
+                    <p>钟永定、廖兴有、钟承福、钟锋、钟吉和、钟宽和、钟健、陈烈敏、黎伟荣、钟三妹、钟承旺、钟亚文</p>
+                </div>
+                <div class="defendant-card">
+                    <h4>钟亚文（唯一例外）</h4>
+                    <p class="quote">声称认识曹亚胜</p>
+                    <p>但说法与其他证据完全矛盾，无法自圆其说，后来承认"这里很多都是拼好的笔录"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 不在场证据 -->
+        <div class="section">
+            <h2><i class="fas fa-map-marker-alt"></i> 不在场证据与法院荒谬说理</h2>
+            <div class="evidence-grid">
+                <div class="evidence-card" style="background: linear-gradient(135deg, #74b9ff, #0984e3);">
+                    <h3><i class="fas fa-home"></i> 装修不在场证据</h3>
+                    <p><strong>倪洁芳证言：</strong>2011年案发期间，曹亚胜确实在广西梧州为其装修房屋</p>
+                    <p><strong>法院荒谬说理：</strong>"不能证明24小时在装修，因此不能排除作案时间"</p>
+                    <p><strong>根本错误：</strong>举证责任完全倒置！应当由控方证明曹亚胜在场，而非由辩方证明其不在场</p>
+                </div>
+                <div class="evidence-card" style="background: linear-gradient(135deg, #fd79a8, #fdcb6e);">
+                    <h3><i class="fas fa-file-contract"></i> 姓名使用历史证据</h3>
+                    <p><strong>关键发现：</strong>曹亚胜从1996年至2005年一直以"曹胜"名义在社会生活</p>
+                    <ul>
+                        <li>1996年湛江市赤坎区卫生防疫站证书：颁发给"曹胜"</li>
+                        <li>1999-2005年多份装修合同：均以"曹胜"名义签订</li>
+                        <li>铁证：任何指名道姓指证"曹亚胜"的证言必然是伪造的</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 法律适用错误 -->
+        <div class="section legal-issues">
+            <h2><i class="fas fa-exclamation-triangle"></i> 严重法律适用错误</h2>
+            <h3>一个行为，荒谬定三罪</h3>
+            <p>原判荒谬地认定曹亚胜"给邓欢灌水"这一个行为同时构成三个罪名：</p>
+            <ul class="violation-list">
+                <li>参加黑社会性质组织罪</li>
+                <li>绑架罪</li>
+                <li>敲诈勒索罪</li>
+            </ul>
+            <p><strong>严重违法：</strong>一行为被重复评价，明显违反"一事不再罚"基本法律原则</p>
+            <p><strong>更加荒诞：</strong>在李信被敲诈勒索案中，连一个言词证据都没有，但曹亚胜竟然还被零证据定罪！</p>
+        </div>
+
+        <!-- 职业见证人问题 -->
+        <div class="section">
+            <h2><i class="fas fa-search"></i> 职业见证人造假问题</h2>
+            <div style="background: linear-gradient(135deg, #a29bfe, #6c5ce7); color: white; padding: 40px; border-radius: 20px;">
+                <h3><i class="fas fa-user-secret"></i> 蔡南红的神奇见证活动</h3>
+                <p><strong>匪夷所思：</strong>作为见证人，蔡南红神奇地出现在8个人的辨认笔录中，辨认地点竟然遍及全省各地：</p>
+                <ul style="margin: 20px 0; line-height: 1.8;">
+                    <li>📍 办案组驻地世明大酒店</li>
+                    <li>📍 廉江青平镇金塘岭村</li>
+                    <li>📍 湛江公安局麻章分局</li>
+                    <li>📍 深圳市龙岗区</li>
+                    <li>📍 佛山市顺德区</li>
+                </ul>
+                <p><strong>常识质疑：</strong>哪个正常人会自掏腰包跟着公安机关全省跑来跑去当见证人？差旅费谁出？</p>
+                <p><strong>铁证：</strong>杨亚秀、邓明均明确表示辨认时根本无见证人在场，但蔡南红的名字却神奇地出现在笔录中！</p>
+            </div>
+        </div>
+
+        <!-- 申诉请求 -->
+        <div class="conclusion" id="conclusion">
+            <h2><i class="fas fa-gavel"></i> 申诉请求</h2>
+            <p style="font-size: 1.5rem; margin-bottom: 30px;"><strong>请求广东省人民检察院：</strong></p>
+            <div class="demands">
+                <ul>
+                    <li>依照审判监督程序向广东省高级人民法院提出抗诉，纠正这起震撼的错案</li>
+                    <li>立案调查司法工作人员伪造证据、指供诱供、威胁证人的严重徇私枉法行为</li>
+                    <li>立即为无辜的曹亚胜洗清冤屈，恢复其人身自由，结束17年半的冤狱</li>
+                    <li>严肃追究相关责任人员的法律责任，维护司法公正和社会正义</li>
+                    <li>以此案为鉴，建立健全防范冤假错案的长效机制</li>
+                </ul>
+            </div>
+            
+            <div style="margin-top: 40px; padding-top: 30px; border-top: 3px solid rgba(255,255,255,0.3);">
+                <h3 style="font-size: 2rem; margin-bottom: 20px;">核心观点</h3>
+                <p style="font-size: 1.3rem; line-height: 1.8;">
+                    <span class="shock-text">"包括黑老大在内的所有组织成员都不认识曹亚胜"</span><br>
+                    仅凭这一点，任何有常识的人都能判断这是惊天冤案<br>
+                    <strong>正义不会缺席，真相终将大白，冤案必须纠正！</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // 进度条功能
+        window.addEventListener('scroll', function() {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+            
+            // 返回顶部按钮显示/隐藏
+            const backToTop = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        // 返回顶部功能
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 平滑滚动导航
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 添加滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有section元素
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(50px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html> 
