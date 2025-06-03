@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>耽美文学发展与规范研究可视化报告</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.8;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        
+        /* 移动端导航 */
+        .mobile-nav {
+            display: none;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .nav-toggle {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .nav-menu {
+            display: none;
+            margin-top: 15px;
+        }
+        
+        .nav-menu.active {
+            display: block;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 10px 0;
+            color: #2c3e50;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        
+        .nav-item:hover {
+            color: #667eea;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+        
+        .header .subtitle {
+            font-size: 1em;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            border-left: 5px solid #667eea;
+            padding-left: 12px;
+            line-height: 1.3;
+        }
+        
+        .section h3 {
+            color: #34495e;
+            font-size: 1.2em;
+            margin: 15px 0 10px 0;
+            line-height: 1.4;
+        }
+        
+        .section p {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            text-align: justify;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 15px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 15px 0;
+            width: calc(100% - 50px);
+            left: 50px;
+            text-align: left;
+            padding-left: 15px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #667eea;
+            border-radius: 50%;
+            left: -35px;
+            top: 15px;
+        }
+        
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-content h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .timeline-content p {
+            font-size: 0.9em;
+            margin: 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 15px;
+            border-radius: 12px;
+            text-align: center;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .stat-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            color: white;
+            line-height: 1.2;
+        }
+        
+        .stat-card p {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin: 0;
+            line-height: 1.3;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 15px 0;
+        }
+        
+        .flow-chart {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .flow-item {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .flow-item::after {
+            content: '↓';
+            position: absolute;
+            left: 50%;
+            bottom: -25px;
+            transform: translateX(-50%);
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .flow-item:last-child::after {
+            display: none;
+        }
+        
+        .flow-item h4 {
+            font-size: 1em;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        
+        .flow-item p {
+            font-size: 0.85em;
+            color: #666;
+            margin: 0;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .case-study {
+            background: #fff5f5;
+            border: 1px solid #fed7d7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .case-study h4 {
+            color: #c53030;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.8em;
+            min-width: 600px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 0.85em;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .warning-box {
+            background: #fff8e1;
+            border: 1px solid #ffb74d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .warning-box h4 {
+            color: #ef6c00;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        
+        .warning-box ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+        
+        .warning-box li {
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        
+        /* 移动端专门优化 */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+            
+            .container {
+                padding: 8px;
+            }
+            
+            .mobile-nav {
+                display: block;
+            }
+            
+            .header {
+                padding: 20px 15px;
+                margin-bottom: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.6em;
+                margin-bottom: 12px;
+            }
+            
+            .header .subtitle {
+                font-size: 0.9em;
+            }
+            
+            .section {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .section h2 {
+                font-size: 1.3em;
+                margin-bottom: 12px;
+                padding-left: 10px;
+            }
+            
+            .section h3 {
+                font-size: 1.1em;
+                margin: 12px 0 8px 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .stat-card {
+                padding: 15px 10px;
+            }
+            
+            .stat-card h3 {
+                font-size: 1.5em;
+            }
+            
+            .stat-card p {
+                font-size: 0.8em;
+            }
+            
+            .chart-container {
+                height: 250px;
+                margin: 10px 0;
+            }
+            
+            .timeline-content {
+                padding: 12px;
+            }
+            
+            .timeline-content h4 {
+                font-size: 1em;
+            }
+            
+            .timeline-content p {
+                font-size: 0.85em;
+            }
+            
+            .flow-item {
+                padding: 12px;
+            }
+            
+            .highlight-box {
+                padding: 12px;
+                margin: 12px 0;
+            }
+            
+            .case-study {
+                padding: 12px;
+                margin: 12px 0;
+            }
+            
+            .warning-box {
+                padding: 12px;
+                margin: 12px 0;
+            }
+            
+            .table-responsive {
+                margin: 10px -15px;
+                padding: 0 15px;
+            }
+            
+            table {
+                font-size: 0.75em;
+            }
+            
+            th, td {
+                padding: 6px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                font-size: 13px;
+            }
+            
+            .header h1 {
+                font-size: 1.4em;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-container {
+                height: 200px;
+            }
+        }
+        
+        .conclusion {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .conclusion h2 {
+            color: white;
+            border: none;
+            padding: 0;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .conclusion p {
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        /* 内容扩展样式 */
+        .content-section {
+            margin: 20px 0;
+        }
+        
+        .key-points {
+            background: #f0f8ff;
+            border-left: 4px solid #4a90e2;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .key-points h5 {
+            color: #2c5aa0;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        
+        .definition-box {
+            background: #f9f9f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .definition-box .term {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+        
+        .evolution-step {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .evolution-step .step-number {
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .evolution-step .step-content {
+            flex: 1;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .evolution-step {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .evolution-step .step-number {
+                margin-right: 0;
+                margin-bottom: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 移动端导航 -->
+        <div class="mobile-nav">
+            <button class="nav-toggle" onclick="toggleNav()">📋 目录导航</button>
+            <nav class="nav-menu" id="navMenu">
+                <a href="#background" class="nav-item">研究背景</a>
+                <a href="#chapter1" class="nav-item">第一章：溯源与流变</a>
+                <a href="#chapter2" class="nav-item">第二章：海棠现象</a>
+                <a href="#chapter3" class="nav-item">第三章：法律规制</a>
+                <a href="#chapter4" class="nav-item">第四章：影响与应对</a>
+                <a href="#conclusion" class="nav-item">研究结论</a>
+            </nav>
+        </div>
+
+        <!-- 标题部分 -->
+        <div class="header">
+            <h1>耽美文学发展与规范研究</h1>
+            <p class="subtitle">网络文学、创作社群与法律规制的交织场域分析</p>
+            <p>——基于海棠文学城等平台的深度调研</p>
+        </div>
+
+        <!-- 引言 -->
+        <div class="section" id="background">
+            <h2>研究背景</h2>
+            <div class="highlight-box">
+                <p>耽美文学作为一种独特的网络文学类型，近年来在中国获得了广泛关注与发展，形成了庞大的读者社群和日益增长的市场影响力。然而，与这种流行趋势相伴而生的，是日趋规范化的管理环境和相关法律规制。</p>
+            </div>
+            
+            <div class="content-section">
+                <p>耽美文学的兴起与发展，反映了当代中国网络文化的多元化趋势和青年群体的文化需求。这一文学类型不仅在文本创作上展现出独特的叙事特征，更在社群构建、商业运作和文化传播等层面形成了复杂的生态系统。</p>
+                
+                <div class="key-points">
+                    <h5>研究关键问题：</h5>
+                    <p>• 耽美文学如何从日本舶来品发展为本土化文化现象？<br>
+                    • 网络平台如何塑造了耽美文学的创作生态？<br>
+                    • 法律规制对创作自由产生了怎样的影响？<br>
+                    • 创作者和读者如何应对变化的环境？</p>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>88%</h3>
+                    <p>读者为女性</p>
+                </div>
+                <div class="stat-card">
+                    <h3>66.5%</h3>
+                    <p>异性恋读者占比</p>
+                </div>
+                <div class="stat-card">
+                    <h3>50+</h3>
+                    <p>近期涉案作者数量</p>
+                </div>
+                <div class="stat-card">
+                    <h3>25万元</h3>
+                    <p>相关案件违法所得门槛</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第一章：耽美文学发展历程 -->
+        <div class="section" id="chapter1">
+            <h2>第一章：耽美文学溯源与流变</h2>
+            
+            <h3>1.1 定义与特征深度解析</h3>
+            <div class="definition-box">
+                <p><span class="term">耽美文学</span>：源自日语"たんび (tanbi)"，字面意义为"沉溺于美"。在中国语境下，特指以男性角色之间的浪漫和/或情感关系为核心特征的文学类型，主要由女性创作并面向女性读者群体。</p>
+            </div>
+            
+            <div class="content-section">
+                <p>耽美文学的核心特征体现在多个层面。在<strong>叙事结构</strong>上，它通常围绕两位或多位男性主角的情感发展展开，采用"攻受"角色设定来构建关系动态；在<strong>题材选择</strong>上，融合了武侠、仙侠、现代都市、科幻等多种类型元素；在<strong>文化功能</strong>上，为女性读者提供了情感投射和审美满足的空间。</p>
+                
+                <div class="key-points">
+                    <h5>核心特征分析：</h5>
+                    <p><strong>1. 性别角色重构</strong>：通过"攻受"设定重新定义关系中的主动与被动<br>
+                    <strong>2. 情感理想化</strong>：强调纯粹情感、忠贞不渝的"双洁"情结<br>
+                    <strong>3. 本土化融合</strong>：与中国传统文化元素的深度结合<br>
+                    <strong>4. 社群认同</strong>：形成了独特的粉丝文化和话语体系</p>
+                </div>
+                
+                <p>值得注意的是，中国耽美文学在发展过程中，<strong>逐渐摆脱了早期对日本BL文化的简单模仿</strong>，形成了融入本土文化特色的创作模式。这种"中国化"过程体现在对历史题材的运用、对传统价值观念的重新阐释，以及对当代社会议题的回应上。</p>
+            </div>
+            
+            <div class="flow-chart">
+                <div class="flow-item">
+                    <h4>日本BL文化</h4>
+                    <p>20世纪70年代兴起，以美少年漫画为载体</p>
+                </div>
+                <div class="flow-item">
+                    <h4>台湾翻译传入</h4>
+                    <p>90年代初期通过盗版渠道进入大陆</p>
+                </div>
+                <div class="flow-item">
+                    <h4>网络平台发展</h4>
+                    <p>21世纪初互联网提供传播平台</p>
+                </div>
+                <div class="flow-item">
+                    <h4>本土化创作</h4>
+                    <p>"原耽"概念形成，融入中国文化元素</p>
+                </div>
+            </div>
+
+            <h3>1.2 发展演进的深层逻辑</h3>
+            <div class="content-section">
+                <p>耽美文学在中国的发展并非偶然现象，而是<strong>多重因素交互作用的结果</strong>。互联网技术的普及为其提供了传播载体，商业化运作为其注入了发展动力，而女性群体文化需求的觉醒则构成了其社会基础。</p>
+                
+                <div class="evolution-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <strong>技术赋能阶段</strong>：互联网打破了传统出版的门槛，为小众文化提供了生存空间
+                    </div>
+                </div>
+                
+                <div class="evolution-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <strong>社群聚合阶段</strong>：相同兴趣的读者和创作者通过网络平台建立联系
+                    </div>
+                </div>
+                
+                <div class="evolution-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <strong>商业化运作阶段</strong>：平台方发现商业价值，开始系统化运营
+                    </div>
+                </div>
+                
+                <div class="evolution-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <strong>主流化尝试阶段</strong>：通过影视改编等方式向更广泛受众扩散
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>萌芽期 (1990s-2000s初)</h4>
+                        <p>日本BL作品通过盗版渠道传入，早期爱好者在BBS论坛进行小圈子化传播，形成最初的社群雏形。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>网络发展期 (2003-2010s初)</h4>
+                        <p>晋江文学城等商业平台兴起，"原耽"概念形成，本土化创作繁荣，读者群体快速扩大。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>商业化期 (2010s中期-2020)</h4>
+                        <p>资本介入IP开发，多媒体改编盛行，"耽改剧"成为规避策略，粉丝经济效应显著。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>规范管理期 (2021至今)</h4>
+                        <p>"清朗行动"等专项整治频发，法律风险增加，创作空间收缩，部分内容向境外平台转移。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 发展历程表格 -->
+        <div class="section">
+            <h3>耽美文学发展历程详细分析</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>发展阶段</th>
+                            <th>主要传播媒介</th>
+                            <th>内容特征</th>
+                            <th>读者社群特点</th>
+                            <th>管理环境</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>萌芽/引入期<br>(约1990s-2000s初)</td>
+                            <td>盗版日本漫画及小说、早期BBS论坛</td>
+                            <td>模仿、翻译日本BL作品为主，少量早期原创</td>
+                            <td>以日本BL爱好者为主，小圈子化，地下状态</td>
+                            <td>管理相对宽松但社会接受度低，网络提供初步庇护</td>
+                        </tr>
+                        <tr>
+                            <td>网络发展/本土化期<br>(约2003-2010s初)</td>
+                            <td>晋江文学城等商业文学网站、在线耽美论坛</td>
+                            <td>"原耽"兴起并占据主流，题材多样化，融入中国本土文化元素</td>
+                            <td>读者社群扩大，以女性为主，形成稳定网络社群</td>
+                            <td>网络管理开始系统化，商业平台承担部分管理责任</td>
+                        </tr>
+                        <tr>
+                            <td>商业化/改编潮期<br>(约2010s中期-2020)</td>
+                            <td>文学网站、社交媒体、广播剧、动画、网络剧</td>
+                            <td>资本介入IP开发，多媒体改编盛行，"耽改"成为规避策略</td>
+                            <td>粉丝经济效应显著，读者群体进一步扩大并出圈</td>
+                            <td>管理趋严，针对相关内容的整治运动频发，平台自我规范加剧</td>
+                        </tr>
+                        <tr>
+                            <td>全面管理/出海探索期<br>(约2021至今)</td>
+                            <td>文学网站（境内外）、部分海外社交平台、地下传播渠道</td>
+                            <td>高风险内容向境外平台转移，境内创作题材受限，"耽改"剧基本停滞</td>
+                            <td>国内社群承压，部分转向海外，国际读者增多</td>
+                            <td>"清朗行动"等专项整治对相关文化进行严厉管理，法律行动增多</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 第二章：海棠文学城分析 -->
+        <div class="section" id="chapter2">
+            <h2>第二章："海棠"现象深度分析</h2>
+            
+            <h3>2.1 海棠文学城的兴起背景与平台特色</h3>
+            <div class="content-section">
+                <p>海棠文学城的出现并非偶然，而是<strong>中国大陆内容管理日趋严格背景下的必然产物</strong>。当晋江文学城等主流平台开始实施更严格的内容审核标准，大量作者和读者开始寻找新的表达和阅读空间。</p>
+                
+                <div class="definition-box">
+                    <p><span class="term">海棠文学城</span>：注册运营于台湾的在线原创小说网站，以相对宽松的内容管理政策吸引了大量大陆用户，成为耽美文学"出海"的重要平台。</p>
+                </div>
+                
+                <div class="key-points">
+                    <h5>平台核心优势：</h5>
+                    <p><strong>内容宽松度</strong>：对成人内容的容忍度较高，满足了部分读者对"高尺度"内容的需求<br>
+                    <strong>地理优势</strong>：位于台湾，在法律管辖上存在一定的模糊地带<br>
+                    <strong>商业模式</strong>：通过打赏、订阅等方式为作者提供收入来源<br>
+                    <strong>用户粘性</strong>：形成了相对稳定的作者和读者社群</p>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <p><strong>平台定位分析：</strong>海棠文学城实际上承担了"内容避风港"的角色，为那些在主流平台难以发表的作品提供了发布渠道。这种定位既满足了特定用户群体的需求，也为平台带来了商业价值，但同时也埋下了法律风险的隐患。</p>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="platformComparison"></canvas>
+            </div>
+
+            <h3>2.2 "海棠作者"群体的多重身份与生存状况</h3>
+            <div class="content-section">
+                <p>通过对"海棠作者"群体的深入观察，我们发现这一群体呈现出<strong>复杂的多重身份特征</strong>。她们既是文学创作者，也是内容生产者；既是经济个体，也是文化实践者。</p>
+                
+                <div class="evolution-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <strong>经济驱动层面</strong>：部分作者面临现实经济困境，写作成为重要的收入补充甚至主要生活来源
+                    </div>
+                </div>
+                
+                <div class="evolution-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <strong>文化认同层面</strong>：她们是耽美文化的传承者和创新者，承载着特定社群的文化价值
+                    </div>
+                </div>
+                
+                <div class="evolution-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <strong>社会边缘层面</strong>：由于题材敏感性，她们往往处于主流文化的边缘位置
+                    </div>
+                </div>
+                
+                <div class="evolution-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <strong>法律风险层面</strong>：在不明确的法律边界中进行创作，面临潜在的法律风险
+                    </div>
+                </div>
+                
+                <p>值得关注的是，<strong>许多"海棠作者"对法律风险的认知存在明显不足</strong>。她们往往将在境外平台发表作品视为相对安全的选择，低估了跨境执法的可能性。这种认知偏差在一定程度上加大了她们面临的风险。</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>经济驱动</h3>
+                    <p>部分作者面临现实经济困境，将写作作为重要收入来源</p>
+                </div>
+                <div class="stat-card">
+                    <h3>隐秘性</h3>
+                    <p>使用笔名，在相对小众的圈子里进行创作和交流</p>
+                </div>
+                <div class="stat-card">
+                    <h3>风险意识</h3>
+                    <p>对法律风险认知存在偏差，存在侥幸心理</p>
+                </div>
+                <div class="stat-card">
+                    <h3>社群孤立</h3>
+                    <p>遭遇法律风险时难以获得公开支持和声援</p>
+                </div>
+            </div>
+            
+            <h3>2.3 平台生态与风险累积</h3>
+            <div class="content-section">
+                <p>海棠文学城的发展模式实际上是在<strong>风险与收益之间走钢丝</strong>。一方面，宽松的内容政策为其带来了用户和流量；另一方面，这种模式也使其成为执法部门关注的焦点。</p>
+                
+                <div class="case-study">
+                    <h4>风险累积机制分析</h4>
+                    <p>• <strong>内容风险</strong>：平台上存在大量可能被认定为"违规"的内容<br>
+                    • <strong>用户风险</strong>：大量大陆用户的参与增加了跨境执法的可能性<br>
+                    • <strong>商业风险</strong>：盈利模式的存在使其可能被认定为"牟利"行为<br>
+                    • <strong>示范风险</strong>：作为典型案例被选择性执法的可能性</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三章：法律规制分析 -->
+        <div class="section" id="chapter3">
+            <h2>第三章：法律规制框架的深层剖析</h2>
+            
+            <h3>3.1 法律法规体系的构建逻辑</h3>
+            <div class="content-section">
+                <p>中国对网络文学内容的法律规制体系呈现<strong>多层次、多部门、多手段</strong>的特征。这一体系不仅包括明确的法律条文，更包括大量的行政法规、部门规章和执行标准。</p>
+                
+                <div class="key-points">
+                    <h5>规制体系的三个层次：</h5>
+                    <p><strong>宏观层面</strong>：宪法原则和基本法律确立的价值导向<br>
+                    <strong>中观层面</strong>：行政法规和部门规章的具体规定<br>
+                    <strong>微观层面</strong>：执行标准和司法解释的操作细则</p>
+                </div>
+                
+                <p>这种多层次结构的优点在于能够适应不同情况的需要，但也带来了<strong>标准模糊、执行弹性大</strong>的问题。对于创作者而言，很难准确把握什么内容是被允许的，什么内容可能触及红线。</p>
+            </div>
+            
+            <div class="flow-chart">
+                <div class="flow-item">
+                    <h4>《出版管理条例》</h4>
+                    <p>基本行政法规，确立总体原则</p>
+                </div>
+                <div class="flow-item">
+                    <h4>《网络出版服务管理规定》</h4>
+                    <p>网络出版专门规定，细化管理要求</p>
+                </div>
+                <div class="flow-item">
+                    <h4>《刑法》第363条</h4>
+                    <p>制作、传播淫秽物品牟利罪，提供刑事制裁依据</p>
+                </div>
+                <div class="flow-item">
+                    <h4>司法解释</h4>
+                    <p>具体执行标准，明确定罪量刑标准</p>
+                </div>
+            </div>
+
+            <h3>3.2 核心罪名的适用困境与争议</h3>
+            <div class="content-section">
+                <p>"制作、传播淫秽物品牟利罪"是当前打击耽美文学创作的主要法律工具。然而，这一罪名在适用过程中面临着<strong>多重困境和广泛争议</strong>。</p>
+                
+                <div class="definition-box">
+                    <p><span class="term">核心争议</span>：如何界定"淫秽物品"？文学作品中的情色描写何时构成犯罪？"牟利"的标准如何确定？刑罚是否与社会危害性相匹配？</p>
+                </div>
+                
+                <div class="evolution-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <strong>界定模糊性</strong>：对"淫秽物品"的界定缺乏明确、统一的标准
+                    </div>
+                </div>
+                
+                <div class="evolution-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <strong>标准偏低</strong>：5000次点击的定罪标准在网络时代显得过于容易达成
+                    </div>
+                </div>
+                
+                <div class="evolution-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <strong>刑罚过重</strong>：与其他犯罪相比，该罪名的刑罚显得不成比例
+                    </div>
+                </div>
+                
+                <div class="evolution-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <strong>选择性执法</strong>：执法的随意性和针对性引发公平性质疑
+                    </div>
+                </div>
+            </div>
+            
+            <div class="warning-box">
+                <h4>制作、传播淫秽物品牟利罪详解</h4>
+                <p><strong>构成要件：</strong></p>
+                <ul>
+                    <li><strong>主观要件</strong>：以牟利为目的（包括直接获利和间接获利）</li>
+                    <li><strong>客观要件</strong>：制作、复制、出版、贩卖、传播淫秽物品的行为</li>
+                    <li><strong>定罪标准</strong>：点击数5000次以上或违法所得达到一定数额</li>
+                    <li><strong>淫秽认定</strong>：缺乏明确标准，存在较大主观性</li>
+                </ul>
+                <p><strong>刑罚体系：</strong></p>
+                <ul>
+                    <li><strong>基本刑</strong>：三年以下有期徒刑、拘役或管制，并处罚金</li>
+                    <li><strong>加重刑</strong>：三年以上十年以下有期徒刑，并处罚金</li>
+                    <li><strong>特别加重刑</strong>：十年以上有期徒刑或无期徒刑，并处罚金或没收财产</li>
+                </ul>
+                
+                <div class="key-points">
+                    <h5>执法争议焦点：</h5>
+                    <p><strong>文学性认定</strong>：如何区分文学作品与纯粹的色情材料？<br>
+                    <strong>受众特征</strong>：成年女性自愿付费阅读是否构成"受害"？<br>
+                    <strong>社会危害</strong>：此类作品的实际社会危害性如何评估？<br>
+                    <strong>量刑公平</strong>：与其他犯罪的刑罚是否存在失衡？</p>
+                </div>
+            </div>
+
+            <h3>3.3 标志性案例的警示与反思</h3>
+            <div class="content-section">
+                <p>从"天一案"到"海棠作者"事件，一系列标志性案例不仅展现了执法的严厉性，也暴露了现有法律框架的<strong>内在矛盾和适用难题</strong>。</p>
+                
+                <div class="case-study">
+                    <h4>"天一案"(2018年) - 里程碑式重判</h4>
+                    <p><strong>案情概要</strong>：作者刘某某因创作并销售《攻占》等耽美小说，被判有期徒刑十年零六个月。<br>
+                    <strong>争议焦点</strong>：刑期是否过重？文学作品的边界在哪里？<br>
+                    <strong>社会影响</strong>：在耽美创作圈引发巨大震动，成为"寒蝉效应"的起点。</p>
+                </div>
+
+                <div class="case-study">
+                    <h4>"海棠作者"事件(2024年) - 规模化执法</h4>
+                    <p><strong>事件特点</strong>：安徽警方主导的大规模、跨省行动，超过50名作者被拘留或逮捕。<br>
+                    <strong>执法方式</strong>：针对特定平台的精准打击，体现了执法的系统性和针对性。<br>
+                    <strong>社会反响</strong>：引发关于"远洋捕捞"式执法和地方财政动机的质疑。</p>
+                </div>
+                
+                <p>这些案例共同反映出一个重要问题：<strong>在网络时代，传统的法律框架如何适应新兴文化现象的挑战？</strong>当法律的刚性遇到文化的多元性，如何在维护秩序与保护创新之间找到平衡点？</p>
+            </div>
+        </div>
+
+        <!-- 案例详情表格 -->
+        <div class="section">
+            <h3>重要案例详情对比</h3>
+            <div class="content-section">
+                <p>通过对比分析不同案例的具体情况，可以更清晰地了解执法标准的演变和争议焦点的变化。</p>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>涉案作者</th>
+                            <th>主要平台</th>
+                            <th>指控罪名</th>
+                            <th>判决结果</th>
+                            <th>涉案金额</th>
+                            <th>主要争议点</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>云间<br>(元尚白云间)</td>
+                            <td>海棠文学城</td>
+                            <td>制作、传播淫秽物品牟利罪</td>
+                            <td>有期徒刑4年6个月，罚金184万元</td>
+                            <td>184万元</td>
+                            <td>量刑过重，罚金过高，跨境执法合理性</td>
+                        </tr>
+                        <tr>
+                            <td>词夕</td>
+                            <td>海棠文学城</td>
+                            <td>制作、传播淫秽物品牟利罪</td>
+                            <td>有期徒刑5年6个月</td>
+                            <td>未明确披露</td>
+                            <td>量刑标准不透明</td>
+                        </tr>
+                        <tr>
+                            <td>一些不入一些</td>
+                            <td>海棠文学城</td>
+                            <td>制作、传播淫秽物品牟利罪</td>
+                            <td>有期徒刑1年5个月，缓刑2年</td>
+                            <td>未明确披露</td>
+                            <td>量刑差异较大</td>
+                        </tr>
+                        <tr>
+                            <td>天一案<br>(刘某某)</td>
+                            <td>个人出版</td>
+                            <td>制作、贩卖淫秽物品牟利罪</td>
+                            <td>有期徒刑10年6个月，罚金5万元</td>
+                            <td>约15万元</td>
+                            <td>早期标志性重判案例，社会反响强烈</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="key-points">
+                <h5>案例分析要点：</h5>
+                <p><strong>量刑差异</strong>：同样罪名下刑期差异巨大，从缓刑到10年以上不等<br>
+                <strong>罚金标准</strong>：罚金数额与违法所得之间缺乏明确比例关系<br>
+                <strong>地域因素</strong>：安徽地区集中办案引发"远洋捕捞"质疑<br>
+                <strong>平台差异</strong>：境内外平台作者面临的风险程度不同</p>
+            </div>
+        </div>
+
+        <!-- 第四章：影响与应对 -->
+        <div class="section" id="chapter4">
+            <h2>第四章：文化、法律与表达的博弈——耽美文学的困境与未来</h2>
+            
+            <h3>4.1 法律行动对耽美创作社群及网络文学环境的深远影响</h3>
+            <div class="content-section">
+                <p>近期针对耽美写作者的严厉法律行动，对整个耽美创作社群乃至更广泛的网络文学环境都产生了<strong>深远且复杂的影响</strong>。这些影响远超个案本身，实质性地重塑了整个创作生态。</p>
+                
+                <div class="definition-box">
+                    <p><span class="term">"寒蝉效应"</span>：当作者们目睹同行因作品内容而身陷囹圄、面临巨额罚款甚至漫长刑期时，恐惧感会迅速蔓延并内化为创作时一道无形的"高压线"。</p>
+                </div>
+                
+                <div class="key-points">
+                    <h5>深远影响的三个层面：</h5>
+                    <p><strong>个体层面</strong>：创作者自我审查加剧，题材选择更加谨慎<br>
+                    <strong>社群层面</strong>：社群分化和边缘化，交流成本增加<br>
+                    <strong>产业层面</strong>：整个网络文学创作环境趋于保守</p>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="impactAnalysis"></canvas>
+            </div>
+            
+            <div class="flow-chart">
+                <div class="flow-item">
+                    <h4>无处不在的"寒蝉效应"</h4>
+                    <p>恐惧感迅速蔓延，成为创作时无形的"高压线"</p>
+                </div>
+                <div class="flow-item">
+                    <h4>创作空间急剧萎缩</h4>
+                    <p>同性恋和情色描写限制导致生存空间异常狭窄</p>
+                </div>
+                <div class="flow-item">
+                    <h4>题材日益单一化</h4>
+                    <p>"耽改剧"等调适策略基本失效，创作选择受限</p>
+                </div>
+                <div class="flow-item">
+                    <h4>社群流动与隐匿</h4>
+                    <p>向海外平台迁移，讨论转向更隐蔽渠道</p>
+                </div>
+            </div>
+
+            <h3>4.2 自我审查、内容调适与"出海"：创作者的应对与突围</h3>
+            <div class="content-section">
+                <p>在持续高压的环境和频发的法律风险面前，中国耽美文学的创作者和相关平台不得不采取各种策略以求生存和延续。这些应对策略体现了<strong>创作者的智慧和韧性</strong>，但也反映了其面临的困境。</p>
+                
+                <div class="definition-box">
+                    <p><span class="term">"戴着镣铐跳舞"</span>：创作者在严格限制下寻求表达空间，是智慧和韧性的体现，但也可能导致作品内核的扭曲、表达的暧昧不明。</p>
+                </div>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>自我审查成为常态</h4>
+                        <p>晋江文学城将"耽美区"更名为"纯爱区"，推行"禁止描写颈部以下内容"等措施。作者主动规避敏感词汇、情节设定和价值取向。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>内容调适策略</h4>
+                        <p>"耽改"剧将同性爱情线修改为"兄弟情"、"知己情"等。作者运用隐喻、象征、暗示等手法曲折表达。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>"出海"寻求空间</h4>
+                        <p>转向海棠文学城、POPO原创市集等境外平台。AO3等国际平台也被屏蔽，选择进一步受限。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>策略有效性递减</h4>
+                        <p>"海棠作者"事件表明"出海"并非安全港，"耽改"等策略生存空间急剧缩小。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>应对策略的演进与困境</h4>
+                <p><strong>早期策略</strong>：简单的自我审查和内容过滤</p>
+                <ul>
+                    <li><strong>"耽改"调适</strong>：将同性爱情模糊处理为其他关系</li>
+                    <li><strong>"出海"探索</strong>：转向境外平台寻求表达空间</li>
+                    <li><strong>策略失效</strong>：官方明确抵制"耽改之风"，境外平台面临"长臂管辖"</li>
+                </ul>
+                <p><strong>当前困境</strong>：应对措施不断升级，但生存空间反而持续萎缩，形成"内卷化"困境</p>
+            </div>
+
+            <h3>4.3 耽美文学的文化价值与社会功能再评估</h3>
+            <div class="content-section">
+                <p>尽管面临严峻环境，从文化研究、女性主义和酷儿研究等学术视角来看，耽美文学依然具有<strong>不容忽视的文化价值和社会功能</strong>。</p>
+                
+                <div class="key-points">
+                    <h5>积极文化功能：</h5>
+                    <p><strong>探索表达空间</strong>：为女性读者提供探索性欲、情感需求和审美偏好的独特空间<br>
+                    <strong>反思性别观念</strong>：激发反恐同话语，促使读者反思传统性别观念和性行为规范<br>
+                    <strong>情感宣泄渠道</strong>：减轻女性读者与性别角色相关的焦虑，提供身份认同渠道<br>
+                    <strong>文化输出潜力</strong>：部分作品在国际上获得传播和影响</p>
+                </div>
+                
+                <div class="case-study">
+                    <h4>复杂性与局限性分析</h4>
+                    <p><strong>创作主体矛盾</strong>：主要创作者和消费者是异性恋女性，可能导致对真实酷儿经验的理想化或片面化<br>
+                    <strong>表达局限性</strong>：在"异性恋规范框架"影响下，可能套用传统异性恋关系中的性别角色分工<br>
+                    <strong>颠覆性质疑</strong>：在真正颠覆父权结构和促进酷儿平权方面的作用可能存在局限性</p>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>探索空间</h3>
+                    <p>为女性读者提供安全的欲望投射和表达场域</p>
+                </div>
+                <div class="stat-card">
+                    <h3>反思功能</h3>
+                    <p>促使读者跳出异性恋霸权框架重新审视性别定义</p>
+                </div>
+                <div class="stat-card">
+                    <h3>国际传播</h3>
+                    <p>《天官赐福》俄语版销量超《哈利·波特》</p>
+                </div>
+                <div class="stat-card">
+                    <h3>文化对比</h3>
+                    <p>"墙内开花墙外香"的现象值得深思</p>
+                </div>
+            </div>
+
+            <h3>4.4 国际传播成就与文化价值认知差异</h3>
+            <div class="content-section">
+                <p>中国耽美文学近年来在国际上产生了一定的传播和影响，显示出其独特的<strong>跨文化吸引力</strong>。这种成功与国内遭遇的压制形成了鲜明对比。</p>
+                
+                <div class="highlight-box">
+                    <p><strong>《天官赐福》国际成功案例：</strong>俄语版在俄罗斯图书市场一度成为畅销书，销量甚至超过了《哈利·波特》系列。海外读者被其引人入胜的故事情节、丰富的人物塑造、普世情感共鸣以及与当地文学传统的契合所吸引。</p>
+                </div>
+                
+                <div class="key-points">
+                    <h5>"墙内开花墙外香"现象分析：</h5>
+                    <p><strong>价值认知差异</strong>：不同文化语境和评价体系下的巨大反差<br>
+                    <strong>文化输出机会</strong>：错失了利用本土流行文化进行正面国际形象建构的机会<br>
+                    <strong>评价体系矛盾</strong>：国内"洪水猛兽"标签与国际认可之间的鸿沟<br>
+                    <strong>软实力建设</strong>：优秀作品的国际影响力与国内压制政策的张力</p>
+                </div>
+            </div>
+
+            <h3>4.5 艺术性与思想性的分层评价</h3>
+            <div class="content-section">
+                <p>对耽美文学的评价应避免简单化的褒贬，既要看到其作为流行文类的<strong>商业属性和潜在局限性</strong>，也要承认其中优秀作品所能达到的艺术和思想高度。</p>
+                
+                <div class="case-study">
+                    <h4>作品质量的层次性分析</h4>
+                    <p><strong>商业化作品</strong>：确实存在大量模式化、快餐式、内容低俗粗糙的作品<br>
+                    <strong>优秀作品特征</strong>：构思精巧、文笔优美、具有深刻历史文化内涵<br>
+                    <strong>价值观传递</strong>：探讨复杂人性，传递家国情怀、英雄主义、对真善美的追求<br>
+                    <strong>评价标准</strong>：需要建立更科学、客观的分层评价体系</p>
+                </div>
+                
+                <div class="warning-box">
+                    <h4>官方评价与社群认知的鸿沟</h4>
+                    <p><strong>官方标签</strong>："淫秽色情"、"危害青少年"、"败坏社会风气"</p>
+                    <ul>
+                        <li><strong>整体否定</strong>：将其整体视为"洪水猛兽"进行打击</li>
+                        <li><strong>标准模糊</strong>：对"淫秽物品"的界定缺乏明确、统一标准</li>
+                        <li><strong>选择性执法</strong>：解释权主要掌握在当权者手中</li>
+                        <li><strong>社群错位</strong>：与社群内部对内容尺度的接受程度存在显著张力</p>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>4.6 未来发展的不确定性与展望</h3>
+            <div class="content-section">
+                <p>中国耽美文学的未来走向充满不确定性。在严格审查持续深化的背景下，<strong>创作者的表达自由、酷儿群体的可见性以及网络空间的开放性将持续面临考验</strong>。</p>
+                
+                <div class="evolution-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <strong>制度环境挑战</strong>：法律界限的模糊性及其解释权的高度集中对创作生态极为不利
+                    </div>
+                </div>
+                
+                <div class="evolution-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <strong>平衡需求</strong>：如何在维护社会秩序与保障创作表达自由之间取得平衡
+                    </div>
+                </div>
+                
+                <div class="evolution-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <strong>代际张力</strong>：技术治理强化与年轻一代文化需求之间的张力
+                    </div>
+                </div>
+                
+                <div class="evolution-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <strong>国际互动</strong>：国内文化政策与国际文化交流之间的复杂关系
+                    </div>
+                </div>
+                
+                <div class="conclusion">
+                    <h4>核心观察维度</h4>
+                    <p>一个健康、繁荣的文化生态，离不开对多元表达的包容和对创作自由的尊重，这不仅关乎耽美文学的命运，也关乎整个社会思想文化活力的维系。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 结论部分 -->
+        <div class="conclusion">
+            <h2>研究结论与展望</h2>
+            <p>耽美文学作为一种深受年轻女性喜爱的文化现象，其在中国的发展历程体现了跨文化传播与本土化创新的复杂过程。面对日益规范化的管理环境，该领域需要在保持文化多样性与遵守法律规范之间寻求平衡。</p>
+            <br>
+            <p>未来发展需要关注：如何在维护社会秩序与保障合法创作表达之间取得更好平衡，如何提升创作者的法律意识和风险防范能力，以及如何发挥优秀作品在文化交流中的积极作用。</p>
+            <br>
+            <p>一个健康、繁荣的文化生态离不开对多元表达的包容和对创作创新的支持，这不仅关乎耽美文学的未来，也关乎整个文化环境的活力与发展。</p>
+        </div>
+    </div>
+
+    <script>
+        // 移动端导航功能
+        function toggleNav() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+        
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // 移动端关闭导航
+                    const navMenu = document.getElementById('navMenu');
+                    navMenu.classList.remove('active');
+                }
+            });
+        });
+        
+        // 平台对比图表
+        const ctx1 = document.getElementById('platformComparison').getContext('2d');
+        new Chart(ctx1, {
+            type: 'radar',
+            data: {
+                labels: ['内容自由度', '用户规模', '商业化程度', '管理严格程度', '技术先进性', '国际化水平'],
+                datasets: [{
+                    label: '海棠文学城',
+                    data: [8, 6, 5, 3, 6, 7],
+                    backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                    borderColor: 'rgba(102, 126, 234, 1)',
+                    pointBackgroundColor: 'rgba(102, 126, 234, 1)',
+                }, {
+                    label: '晋江文学城',
+                    data: [4, 9, 8, 8, 8, 5],
+                    backgroundColor: 'rgba(118, 75, 162, 0.2)',
+                    borderColor: 'rgba(118, 75, 162, 1)',
+                    pointBackgroundColor: 'rgba(118, 75, 162, 1)',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '主要文学平台特征对比',
+                        font: {
+                            size: window.innerWidth < 768 ? 12 : 16
+                        }
+                    },
+                    legend: {
+                        labels: {
+                            font: {
+                                size: window.innerWidth < 768 ? 10 : 12
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 10,
+                        ticks: {
+                            font: {
+                                size: window.innerWidth < 768 ? 8 : 10
+                            }
+                        },
+                        pointLabels: {
+                            font: {
+                                size: window.innerWidth < 768 ? 9 : 11
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 影响分析图表
+        const ctx2 = document.getElementById('impactAnalysis').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['创作空间收缩', '自我规范加剧', '社群分化', '平台迁移', '题材单一化', '创新活力下降'],
+                datasets: [{
+                    label: '影响程度(1-10)',
+                    data: [9, 8, 7, 8, 7, 6],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(255, 159, 64, 0.8)',
+                        'rgba(255, 205, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(153, 102, 255, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 205, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '法律规制对创作社群的影响程度分析',
+                        font: {
+                            size: window.innerWidth < 768 ? 12 : 16
+                        }
+                    },
+                    legend: {
+                        display: window.innerWidth >= 768,
+                        labels: {
+                            font: {
+                                size: window.innerWidth < 768 ? 10 : 12
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10,
+                        ticks: {
+                            font: {
+                                size: window.innerWidth < 768 ? 9 : 11
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: window.innerWidth < 768 ? 8 : 10
+                            },
+                            maxRotation: window.innerWidth < 768 ? 45 : 0
+                        }
+                    }
+                }
+            }
+        });
+
+        // 添加滚动动画效果
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有section元素
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+        
+        // 窗口调整时重新渲染图表
+        window.addEventListener('resize', function() {
+            Chart.getChart('platformComparison')?.resize();
+            Chart.getChart('impactAnalysis')?.resize();
+        });
+        
+        // 点击外部关闭导航
+        document.addEventListener('click', function(e) {
+            const navMenu = document.getElementById('navMenu');
+            const navToggle = document.querySelector('.nav-toggle');
+            
+            if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+        
+        // 移动端优化：防止横屏时布局问题
+        window.addEventListener('orientationchange', function() {
+            setTimeout(function() {
+                Chart.getChart('platformComparison')?.resize();
+                Chart.getChart('impactAnalysis')?.resize();
+            }, 500);
+        });
+    </script>
+</body>
+</html> 
